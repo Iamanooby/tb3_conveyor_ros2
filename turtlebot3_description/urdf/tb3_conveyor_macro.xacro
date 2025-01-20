@@ -45,7 +45,7 @@
     <color rgba="1.0 1.0 1.0 1.0"/>
   </material>
 
-  <!-- <xacro:macro name="wheel" params="name xyz rpy">
+  <xacro:macro name="wheel" params="name xyz rpy">
   
     <link name="wheel_${name}_link">
       <visual>
@@ -77,7 +77,7 @@
       <axis xyz="0 0 1"/>
     </joint>
 
-  </xacro:macro> -->
+  </xacro:macro>
 
   <xacro:macro name="swerve_wheel" params="name xy yaw">
   

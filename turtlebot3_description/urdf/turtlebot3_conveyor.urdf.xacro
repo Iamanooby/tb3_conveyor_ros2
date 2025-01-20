@@ -38,9 +38,9 @@
   </link>
 
 
-  <!-- <xacro:wheel name="left" xyz="0.0 0.08 0.023" rpy="-1.57 0 0"/> -->
+  <xacro:wheel name="left" xyz="0.0 0.08 0.023" rpy="-1.57 0 0"/>
 
-  <!-- <xacro:wheel name="right" xyz="0.0 -0.08 0.023" rpy="-1.57 0 0"/> -->
+  <xacro:wheel name="right" xyz="0.0 -0.08 0.023" rpy="-1.57 0 0"/>
 
 
 
