@@ -22,7 +22,7 @@ class SerialCmdVelNode(Node):
         # Subscribe to cmd_vel topic
         self.subscription = self.create_subscription(
             Twist,
-            'cmd_vel',
+            'cmd_vel_safe',
             self.cmd_vel_callback,
             10
         )
@@ -44,7 +44,7 @@ class SerialCmdVelNode(Node):
         angular_z = self.latest_cmd_vel.angular.z
 
         # Format the string to be sent via serial
-        serial_data = f"{linear_x:.2f},{linear_y:.2f},{angular_z:.2f}\n"
+        serial_data = f"{linear_x:.3f},{linear_y:.3f},{angular_z:.3f}\n"
 
         # Send the data over serial
         try:
