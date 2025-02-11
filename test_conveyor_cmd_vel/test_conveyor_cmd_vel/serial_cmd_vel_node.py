@@ -22,7 +22,8 @@ class SerialCmdVelNode(Node):
         # Subscribe to cmd_vel topic
         self.subscription = self.create_subscription(
             Twist,
-            'cmd_vel_safe',
+            # 'cmd_vel_safe',
+            'cmd_vel',
             self.cmd_vel_callback,
             10
         )

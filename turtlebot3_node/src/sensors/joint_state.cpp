@@ -51,13 +51,14 @@ void JointState::publish(
       extern_control_table.present_position_right.addr,
       extern_control_table.present_position_right.length)};
 
-  std::array<int32_t, JOINT_NUM> velocity =
-  {dxl_sdk_wrapper->get_data_from_device<int32_t>(
-      extern_control_table.present_velocity_left.addr,
-      extern_control_table.present_velocity_left.length),
-    dxl_sdk_wrapper->get_data_from_device<int32_t>(
-      extern_control_table.present_velocity_right.addr,
-      extern_control_table.present_velocity_right.length)};
+//i commented out
+  // std::array<int32_t, JOINT_NUM> velocity =
+  // {dxl_sdk_wrapper->get_data_from_device<int32_t>(
+  //     extern_control_table.present_velocity_left.addr,
+  //     extern_control_table.present_velocity_left.length),
+  //   dxl_sdk_wrapper->get_data_from_device<int32_t>(
+  //     extern_control_table.present_velocity_right.addr,
+  //     extern_control_table.present_velocity_right.length)};
 
   // std::array<int32_t, JOINT_NUM> current =
   //   {dxl_sdk_wrapper->get_data_from_device<int32_t>(
@@ -76,8 +77,9 @@ void JointState::publish(
   msg->position.push_back(TICK_TO_RAD * last_diff_position[0]);
   msg->position.push_back(TICK_TO_RAD * last_diff_position[1]);
 
-  msg->velocity.push_back(RPM_TO_MS * velocity[0]);
-  msg->velocity.push_back(RPM_TO_MS * velocity[1]);
+//i commented out
+  // msg->velocity.push_back(RPM_TO_MS * velocity[0]);
+  // msg->velocity.push_back(RPM_TO_MS * velocity[1]);
 
   // msg->effort.push_back(current[0]);
   // msg->effort.push_back(current[1]);

@@ -79,9 +79,6 @@ ament_target_dependencies(${EXECUTABLE_NAME} ${DEPENDENCIES})
 ################################################################################
 # Install
 ################################################################################
-install(DIRECTORY param
-  DESTINATION share/${PROJECT_NAME}
-)
 
 install(TARGETS ${EXECUTABLE_NAME}
   DESTINATION lib/${PROJECT_NAME}
