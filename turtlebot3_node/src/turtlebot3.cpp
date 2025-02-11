@@ -67,8 +67,14 @@ void TurtleBot3::init_dynamixel_sdk_wrapper(const std::string & usb_port)
 
   dxl_sdk_wrapper_->init_read_memory(
     extern_control_table.millis.addr,
-    (extern_control_table.profile_acceleration_right.addr - extern_control_table.millis.addr) +
-    extern_control_table.profile_acceleration_right.length
+    // (extern_control_table.profile_acceleration_right.addr - extern_control_table.millis.addr) +
+    // extern_control_table.profile_acceleration_right.length
+    (extern_control_table.present_position_joint_right_front.addr - extern_control_table.millis.addr) +
+    extern_control_table.present_position_joint_right_front.length   
+
+
+
+
   );
 }
 
@@ -337,7 +343,7 @@ void TurtleBot3::cmd_vel_callback()
       } data;
 
       data.dword[0] = static_cast<int32_t>(msg->linear.x * 100);
-      data.dword[1] = 0;
+      data.dword[1] = static_cast<int32_t>(msg->linear.y * 100);
       data.dword[2] = 0;
       data.dword[3] = 0;
       data.dword[4] = 0;
@@ -355,7 +361,7 @@ void TurtleBot3::cmd_vel_callback()
 
       RCLCPP_DEBUG(
         this->get_logger(),
-        "lin_vel: %f ang_vel: %f msg : %s", msg->linear.x, msg->angular.z, sdk_msg.c_str());
+        "lin_vel_x: %f lin_vel_y: %f ang_vel: %f msg : %s", msg->linear.x, msg->linear.y, msg->angular.z, sdk_msg.c_str());
     }
   );
 }

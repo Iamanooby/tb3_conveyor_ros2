@@ -87,12 +87,24 @@ typedef struct
   ControlItem imu_orientation_y = {104, RAM, 4, READ};
   ControlItem imu_orientation_z = {108, RAM, 4, READ};
 
-  ControlItem present_current_left = {120, RAM, 4, READ};
-  ControlItem present_current_right = {124, RAM, 4, READ};
-  ControlItem present_velocity_left = {128, RAM, 4, READ};
-  ControlItem present_velocity_right = {132, RAM, 4, READ};
-  ControlItem present_position_left = {136, RAM, 4, READ};
-  ControlItem present_position_right = {140, RAM, 4, READ};
+  // ControlItem present_current_left = {120, RAM, 4, READ};
+  // ControlItem present_current_right = {124, RAM, 4, READ};
+  // ControlItem present_velocity_left = {128, RAM, 4, READ};
+  // ControlItem present_velocity_right = {132, RAM, 4, READ};
+  // ControlItem present_position_left = {136, RAM, 4, READ};
+  // ControlItem present_position_right = {140, RAM, 4, READ};
+
+
+  ControlItem profile_acceleration_left = {112, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_right = {116, RAM, 4, READ_WRITE};
+  // ControlItem profile_acceleration_wheel_left_rear = {112, RAM, 4, READ_WRITE};
+  // ControlItem profile_acceleration_wheel_left_front = {116, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_wheel_right_rear = {120, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_wheel_right_front = {124, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_joint_left_rear = {128, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_joint_left_front = {132, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_joint_right_rear = {136, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_joint_right_front = {140, RAM, 4, READ_WRITE};
 
   ControlItem motor_torque_enable = {149, RAM, 1, READ_WRITE};
 
@@ -103,8 +115,41 @@ typedef struct
   ControlItem cmd_velocity_angular_y = {166, RAM, 4, READ_WRITE};
   ControlItem cmd_velocity_angular_z = {170, RAM, 4, READ_WRITE};
 
-  ControlItem profile_acceleration_left = {174, RAM, 4, READ_WRITE};
-  ControlItem profile_acceleration_right = {178, RAM, 4, READ_WRITE};
+
+  ControlItem present_position_left = {174, RAM, 4, READ};
+  ControlItem present_position_right = {178, RAM, 4, READ};
+  // ControlItem present_position_wheel_left_rear = {174, RAM, 4, READ};
+  // ControlItem present_position_wheel_left_front = {178, RAM, 4, READ};
+  ControlItem present_position_wheel_right_rear = {182, RAM, 4, READ};
+  ControlItem present_position_wheel_right_front = {186, RAM, 4, READ};
+  ControlItem present_position_joint_left_rear = {190, RAM, 4, READ};
+  ControlItem present_position_joint_left_front = {194, RAM, 4, READ};
+  ControlItem present_position_joint_right_rear = {198, RAM, 4, READ};
+  ControlItem present_position_joint_right_front = {202, RAM, 4, READ};
+
+
+  // ControlItem present_velocity_wheel_left_rear = {220, RAM, 4, READ};
+  // ControlItem present_velocity_wheel_left_front = {224, RAM, 4, READ};
+  // ControlItem present_velocity_wheel_right_rear = {228, RAM, 4, READ};
+  // ControlItem present_velocity_wheel_right_front = {232, RAM, 4, READ};
+  // ControlItem present_velocity_joint_left_rear = {236, RAM, 4, READ};
+  // ControlItem present_velocity_joint_left_front = {240, RAM, 4, READ};
+  // ControlItem present_velocity_joint_right_rear = {244, RAM, 4, READ};
+  // ControlItem present_velocity_joint_right_front = {248, RAM, 4, READ};
+
+  // ControlItem present_current_wheel_left_rear = {260, RAM, 4, READ};
+  // ControlItem present_current_wheel_left_front = {264, RAM, 4, READ};
+  // ControlItem present_current_wheel_right_rear = {268, RAM, 4, READ};
+  // ControlItem present_current_wheel_right_front = {272, RAM, 4, READ};
+  // ControlItem present_current_joint_left_rear = {276, RAM, 4, READ};
+  // ControlItem present_current_joint_left_front = {280, RAM, 4, READ};
+  // ControlItem present_current_joint_right_rear = {284, RAM, 4, READ};
+  // ControlItem present_current_joint_right_front = {288, RAM, 4, READ};
+
+
+
+  // ControlItem profile_acceleration_left = {174, RAM, 4, READ_WRITE};
+  // ControlItem profile_acceleration_right = {178, RAM, 4, READ_WRITE};
 } ControlTable;
 
 const ControlTable extern_control_table;
