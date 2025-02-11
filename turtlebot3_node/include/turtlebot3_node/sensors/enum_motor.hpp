@@ -1,0 +1,20 @@
+#ifndef TURTLEBOT3_SENSORS__ENUM_MOTORS_HPP_
+#define TURTLEBOT3_SENSORS__ENUM_MOTORS_HPP_
+
+enum MotorLocation{
+  WHEEL_L_R = 0,
+  WHEEL_R_R=1,
+  WHEEL_L_F=2,
+  WHEEL_R_F=3,
+
+  JOINT_L_R=4,
+  JOINT_R_R=5,
+  JOINT_L_F=6,
+  JOINT_R_F=7,
+  MOTOR_NUM_MAX
+};
+
+//MotorLocation::MOTOR_NUM_MAX
+
+
+#endif  // TURTLEBOT3_SENSORS__ENUM_MOTORS_HPP_

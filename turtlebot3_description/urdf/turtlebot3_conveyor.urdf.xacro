@@ -38,16 +38,16 @@
   </link>
 
 
-  <xacro:wheel name="left" xyz="0.0 0.08 0.023" rpy="-1.57 0 0"/>
+  <!-- <xacro:wheel name="left" xyz="0.0 0.08 0.023" rpy="-1.57 0 0"/>
 
-  <xacro:wheel name="right" xyz="0.0 -0.08 0.023" rpy="-1.57 0 0"/>
+  <xacro:wheel name="right" xyz="0.0 -0.08 0.023" rpy="-1.57 0 0"/> -->
 
 
 
-  <xacro:swerve_wheel name="right_front" xy="${base_length/2} ${-base_length/2}" yaw="0.707"/>
-  <xacro:swerve_wheel name="left_front" xy="${base_length/2} ${base_length/2}" yaw="${0.707+1.57}"/>
-  <xacro:swerve_wheel name="left_rear" xy="${-base_length/2} ${base_length/2}" yaw="${0.707+1.57*2}"/>
-  <xacro:swerve_wheel name="right_rear" xy="${-base_length/2} ${-base_length/2}" yaw="${0.707+1.57*3}"/>
+  <xacro:swerve_wheel name="right_front" xy="${base_length/2} ${-base_length/2}" yaw="0.785"/>
+  <xacro:swerve_wheel name="left_front" xy="${base_length/2} ${base_length/2}" yaw="${0.785+1.571}"/>
+  <xacro:swerve_wheel name="left_rear" xy="${-base_length/2} ${base_length/2}" yaw="${0.785+1.571*2}"/>
+  <xacro:swerve_wheel name="right_rear" xy="${-base_length/2} ${-base_length/2}" yaw="${0.785+1.571*3}"/>
 
   <joint name="imu_joint" type="fixed">
     <parent link="base_link"/>

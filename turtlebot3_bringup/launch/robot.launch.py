@@ -88,7 +88,7 @@ def generate_launch_description():
             package='turtlebot3_node',
             executable='turtlebot3_ros',
             parameters=[tb3_param_dir],
-            # arguments=['-i', usb_port],
-            arguments=['-i', usb_port,'--ros-args', '--log-level', 'DEBUG'],
+            arguments=['-i', usb_port],
+            # arguments=['-i', usb_port,'--ros-args', '--log-level', 'DEBUG'],
             output='screen'),
     ])

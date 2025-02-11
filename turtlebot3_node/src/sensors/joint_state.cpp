@@ -51,13 +51,47 @@ void JointState::publish(
   //     extern_control_table.present_position_right.addr,
   //     extern_control_table.present_position_right.length)};
 
-  std::array<int32_t, JOINT_NUM> position =
-  {dxl_sdk_wrapper->get_data_from_device<int32_t>(
+
+   std::array<int32_t, JOINT_NUM> position;
+  // std::array<int32_t, JOINT_NUM> position =
+  // {dxl_sdk_wrapper->get_data_from_device<int32_t>(
+  //     extern_control_table.present_position_wheel_left_rear.addr,
+  //     extern_control_table.present_position_wheel_left_rear.length),
+  //   dxl_sdk_wrapper->get_data_from_device<int32_t>(
+  //     extern_control_table.present_position_wheel_left_front.addr,
+  //     extern_control_table.present_position_wheel_left_front.length)};
+
+  position[MotorLocation::WHEEL_L_R] = dxl_sdk_wrapper->get_data_from_device<int32_t>(
       extern_control_table.present_position_wheel_left_rear.addr,
-      extern_control_table.present_position_wheel_left_rear.length),
-    dxl_sdk_wrapper->get_data_from_device<int32_t>(
+      extern_control_table.present_position_wheel_left_rear.length);
+
+  position[MotorLocation::WHEEL_L_F] = dxl_sdk_wrapper->get_data_from_device<int32_t>(
       extern_control_table.present_position_wheel_left_front.addr,
-      extern_control_table.present_position_wheel_left_front.length)};
+      extern_control_table.present_position_wheel_left_front.length);
+
+  position[MotorLocation::WHEEL_R_R] = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+      extern_control_table.present_position_wheel_right_rear.addr,
+      extern_control_table.present_position_wheel_right_rear.length);
+
+  position[MotorLocation::WHEEL_R_F] = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+      extern_control_table.present_position_wheel_right_front.addr,
+      extern_control_table.present_position_wheel_right_front.length);
+
+  position[MotorLocation::JOINT_L_R] = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+      extern_control_table.present_position_joint_left_rear.addr,
+      extern_control_table.present_position_joint_left_rear.length);
+
+  position[MotorLocation::JOINT_L_F] = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+      extern_control_table.present_position_joint_left_front.addr,
+      extern_control_table.present_position_joint_left_front.length);
+
+  position[MotorLocation::JOINT_R_R] = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+      extern_control_table.present_position_joint_right_rear.addr,
+      extern_control_table.present_position_joint_right_rear.length);
+
+  position[MotorLocation::JOINT_R_F] = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+      extern_control_table.present_position_joint_right_front.addr,
+      extern_control_table.present_position_joint_right_front.length);
 
 //i commented out
   // std::array<int32_t, JOINT_NUM> velocity =
@@ -79,11 +113,56 @@ void JointState::publish(
   msg->header.frame_id = this->frame_id_;
   msg->header.stamp = now;
 
-  msg->name.push_back("wheel_left_joint");
-  msg->name.push_back("wheel_right_joint");
+  for (int i=0;i<MotorLocation::MOTOR_NUM_MAX;i++)
+  {
 
-  msg->position.push_back(TICK_TO_RAD * last_diff_position[0]);
-  msg->position.push_back(TICK_TO_RAD * last_diff_position[1]);
+    switch(i)
+    {
+      case MotorLocation::JOINT_L_R:
+        msg->name.push_back("pivot_left_rear_joint");
+        break;
+
+      case MotorLocation::JOINT_L_F:
+        msg->name.push_back("pivot_left_front_joint");
+        break;
+
+      case MotorLocation::JOINT_R_R:
+        msg->name.push_back("pivot_right_rear_joint");
+        break;
+
+      case MotorLocation::JOINT_R_F:
+        msg->name.push_back("pivot_right_front_joint");
+        break;
+
+      case MotorLocation::WHEEL_L_R:
+        msg->name.push_back("wheel_left_rear_joint");
+        break;
+
+      case MotorLocation::WHEEL_L_F:
+        msg->name.push_back("wheel_left_front_joint");
+        break;
+
+      case MotorLocation::WHEEL_R_R:
+        msg->name.push_back("wheel_right_rear_joint");
+        break;
+
+      case MotorLocation::WHEEL_R_F:
+        msg->name.push_back("wheel_right_front_joint");
+        break;
+    }
+
+    msg->position.push_back(TICK_TO_RAD * last_diff_position[i]);
+    last_diff_position[i] += (position[i] - last_position[i]);
+
+  }
+
+
+
+  // msg->name.push_back("wheel_left_joint");
+  // msg->name.push_back("wheel_right_joint");
+
+  // msg->position.push_back(TICK_TO_RAD * last_diff_position[0]);
+  // msg->position.push_back(TICK_TO_RAD * last_diff_position[1]);
 
 //i commented out
   // msg->velocity.push_back(RPM_TO_MS * velocity[0]);
@@ -92,8 +171,8 @@ void JointState::publish(
   // msg->effort.push_back(current[0]);
   // msg->effort.push_back(current[1]);
 
-  last_diff_position[0] += (position[0] - last_position[0]);
-  last_diff_position[1] += (position[1] - last_position[1]);
+  // last_diff_position[0] += (position[0] - last_position[0]);
+  // last_diff_position[1] += (position[1] - last_position[1]);
 
   last_position = position;
 

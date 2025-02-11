@@ -34,6 +34,8 @@
 #include <sensor_msgs/msg/imu.hpp>
 #include <sensor_msgs/msg/joint_state.hpp>
 
+#include "turtlebot3_node/sensors/enum_motor.hpp"
+
 
 namespace robotis
 {
