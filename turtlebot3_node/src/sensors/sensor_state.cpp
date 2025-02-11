@@ -118,13 +118,48 @@ void SensorState::publish(
     extern_control_table.motor_torque_enable.addr,
     extern_control_table.motor_torque_enable.length);
 
-  msg->left_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
-    extern_control_table.present_position_left.addr,
-    extern_control_table.present_position_left.length);
+  // msg->left_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+  //   extern_control_table.present_position_left.addr,
+  //   extern_control_table.present_position_left.length);
 
-  msg->right_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
-    extern_control_table.present_position_right.addr,
-    extern_control_table.present_position_right.length);
+  // msg->right_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+  //   extern_control_table.present_position_right.addr,
+  //   extern_control_table.present_position_right.length);
+
+
+  msg->wheel_left_rear_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+    extern_control_table.present_position_wheel_left_rear.addr,
+    extern_control_table.present_position_wheel_left_rear.length);
+
+  msg->wheel_left_front_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+    extern_control_table.present_position_wheel_left_front.addr,
+    extern_control_table.present_position_wheel_left_front.length);
+
+  msg->wheel_right_rear_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+    extern_control_table.present_position_wheel_right_rear.addr,
+    extern_control_table.present_position_wheel_right_rear.length);
+
+  msg->wheel_right_front_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+    extern_control_table.present_position_wheel_right_front.addr,
+    extern_control_table.present_position_wheel_right_front.length);    
+
+
+
+  msg->joint_left_rear_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+    extern_control_table.present_position_joint_left_rear.addr,
+    extern_control_table.present_position_joint_left_rear.length);  
+
+  msg->joint_left_front_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+    extern_control_table.present_position_joint_left_front.addr,
+    extern_control_table.present_position_joint_left_front.length);  
+
+  msg->joint_right_rear_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+    extern_control_table.present_position_joint_right_rear.addr,
+    extern_control_table.present_position_joint_right_rear.length);  
+
+  msg->joint_right_front_encoder = dxl_sdk_wrapper->get_data_from_device<int32_t>(
+    extern_control_table.present_position_joint_right_front.addr,
+    extern_control_table.present_position_joint_right_front.length);  
 
   msg->battery = 0.01f * dxl_sdk_wrapper->get_data_from_device<int32_t>(
     extern_control_table.battery_voltage.addr,

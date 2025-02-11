@@ -95,10 +95,10 @@ typedef struct
   // ControlItem present_position_right = {140, RAM, 4, READ};
 
 
-  ControlItem profile_acceleration_left = {112, RAM, 4, READ_WRITE};
-  ControlItem profile_acceleration_right = {116, RAM, 4, READ_WRITE};
-  // ControlItem profile_acceleration_wheel_left_rear = {112, RAM, 4, READ_WRITE};
-  // ControlItem profile_acceleration_wheel_left_front = {116, RAM, 4, READ_WRITE};
+  // ControlItem profile_acceleration_left = {112, RAM, 4, READ_WRITE};
+  // ControlItem profile_acceleration_right = {116, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_wheel_left_rear = {112, RAM, 4, READ_WRITE};
+  ControlItem profile_acceleration_wheel_left_front = {116, RAM, 4, READ_WRITE};
   ControlItem profile_acceleration_wheel_right_rear = {120, RAM, 4, READ_WRITE};
   ControlItem profile_acceleration_wheel_right_front = {124, RAM, 4, READ_WRITE};
   ControlItem profile_acceleration_joint_left_rear = {128, RAM, 4, READ_WRITE};
@@ -116,10 +116,10 @@ typedef struct
   ControlItem cmd_velocity_angular_z = {170, RAM, 4, READ_WRITE};
 
 
-  ControlItem present_position_left = {174, RAM, 4, READ};
-  ControlItem present_position_right = {178, RAM, 4, READ};
-  // ControlItem present_position_wheel_left_rear = {174, RAM, 4, READ};
-  // ControlItem present_position_wheel_left_front = {178, RAM, 4, READ};
+  // ControlItem present_position_left = {174, RAM, 4, READ};
+  // ControlItem present_position_right = {178, RAM, 4, READ};
+  ControlItem present_position_wheel_left_rear = {174, RAM, 4, READ};
+  ControlItem present_position_wheel_left_front = {178, RAM, 4, READ};
   ControlItem present_position_wheel_right_rear = {182, RAM, 4, READ};
   ControlItem present_position_wheel_right_front = {186, RAM, 4, READ};
   ControlItem present_position_joint_left_rear = {190, RAM, 4, READ};

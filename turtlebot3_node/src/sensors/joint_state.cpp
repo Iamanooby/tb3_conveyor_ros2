@@ -43,13 +43,21 @@ void JointState::publish(
 
   static std::array<int32_t, JOINT_NUM> last_diff_position, last_position;
 
+  // std::array<int32_t, JOINT_NUM> position =
+  // {dxl_sdk_wrapper->get_data_from_device<int32_t>(
+  //     extern_control_table.present_position_left.addr,
+  //     extern_control_table.present_position_left.length),
+  //   dxl_sdk_wrapper->get_data_from_device<int32_t>(
+  //     extern_control_table.present_position_right.addr,
+  //     extern_control_table.present_position_right.length)};
+
   std::array<int32_t, JOINT_NUM> position =
   {dxl_sdk_wrapper->get_data_from_device<int32_t>(
-      extern_control_table.present_position_left.addr,
-      extern_control_table.present_position_left.length),
+      extern_control_table.present_position_wheel_left_rear.addr,
+      extern_control_table.present_position_wheel_left_rear.length),
     dxl_sdk_wrapper->get_data_from_device<int32_t>(
-      extern_control_table.present_position_right.addr,
-      extern_control_table.present_position_right.length)};
+      extern_control_table.present_position_wheel_left_front.addr,
+      extern_control_table.present_position_wheel_left_front.length)};
 
 //i commented out
   // std::array<int32_t, JOINT_NUM> velocity =

@@ -298,18 +298,29 @@ void TurtleBot3::parameter_event_callback()
             motors_.profile_acceleration / motors_.profile_acceleration_constant;
 
           union Data {
-            int32_t dword[2];
+            int32_t dword[8];
             uint8_t byte[4 * 2];
           } data;
 
-          data.dword[0] = static_cast<int32_t>(motors_.profile_acceleration);
-          data.dword[1] = static_cast<int32_t>(motors_.profile_acceleration);
+          for(int i=0;i<8;i++)
+          {
+            data.dword[i] = static_cast<int32_t>(motors_.profile_acceleration);
+          }
 
-          uint16_t start_addr = extern_control_table.profile_acceleration_left.addr;
+          // data.dword[0] = static_cast<int32_t>(motors_.profile_acceleration);
+          // data.dword[1] = static_cast<int32_t>(motors_.profile_acceleration);
+
+          // uint16_t start_addr = extern_control_table.profile_acceleration_left.addr;
+          // uint16_t addr_length =
+          //   (extern_control_table.profile_acceleration_right.addr -
+          //   extern_control_table.profile_acceleration_left.addr) +
+          //   extern_control_table.profile_acceleration_right.length;
+
+          uint16_t start_addr = extern_control_table.profile_acceleration_wheel_left_rear.addr;
           uint16_t addr_length =
-            (extern_control_table.profile_acceleration_right.addr -
-            extern_control_table.profile_acceleration_left.addr) +
-            extern_control_table.profile_acceleration_right.length;
+            (extern_control_table.profile_acceleration_joint_right_front.addr -
+            extern_control_table.profile_acceleration_wheel_left_rear.addr) +
+            extern_control_table.profile_acceleration_joint_right_front.length;
 
           uint8_t * p_data = &data.byte[0];
 
