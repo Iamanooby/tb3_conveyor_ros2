@@ -21,6 +21,7 @@
 #include <chrono>
 #include <memory>
 #include <string>
+#include <math.h>
 
 #include <message_filters/subscriber.h>
 #include <message_filters/sync_policies/approximate_time.h>
@@ -90,11 +91,14 @@ private:
   bool use_imu_;
   bool publish_tf_;
 
-  std::array<double, 2> diff_joint_positions_;
+  std::array<double,MotorLocation::MOTOR_NUM_MAX> diff_joint_positions_ = {};
+  std::array<double,MotorLocation::MOTOR_NUM_MAX> last_joint_positions_ = {};
+
+  // std::array<double, 2> diff_joint_positions_;
   double imu_angle_;
 
-  std::array<double, 3> robot_pose_;
-  std::array<double, 3> robot_vel_;
+  std::array<double, 3> robot_pose_ = {0.0,0.0,0.0};
+  std::array<double, 3> robot_vel_ = {0.0,0.0,0.0};
 };
 }  // namespace turtlebot3
 }  // namespace robotis

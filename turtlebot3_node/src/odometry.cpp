@@ -162,6 +162,7 @@ void Odometry::publish(const rclcpp::Time & now)
   odom_msg->pose.pose.orientation.w = q.w();
 
   odom_msg->twist.twist.linear.x = robot_vel_[0];
+  odom_msg->twist.twist.linear.y = robot_vel_[1];
   odom_msg->twist.twist.angular.z = robot_vel_[2];
 
   // TODO(Will Son): Find more accurate covariance.
@@ -200,13 +201,20 @@ void Odometry::publish(const rclcpp::Time & now)
 void Odometry::update_joint_state(
   const std::shared_ptr<sensor_msgs::msg::JointState const> & joint_state)
 {
-  static std::array<double, 2> last_joint_positions = {0.0f, 0.0f};
+  // static std::array<double, 2> last_joint_positions = {0.0f, 0.0f};
+  // static std::array<double,MotorLocation::MOTOR_NUM_MAX> last_joint_positions = {};
 
-  diff_joint_positions_[0] = joint_state->position[0] - last_joint_positions[0];
-  diff_joint_positions_[1] = joint_state->position[1] - last_joint_positions[1];
+  for (int i=0;i<MotorLocation::MOTOR_NUM_MAX;i++)
+  {
+    diff_joint_positions_[i] = joint_state->position[i] - last_joint_positions_[i];
+    last_joint_positions_[i] = joint_state->position[i];
+  }
 
-  last_joint_positions[0] = joint_state->position[0];
-  last_joint_positions[1] = joint_state->position[1];
+  // diff_joint_positions_[0] = joint_state->position[0] - last_joint_positions[0];
+  // diff_joint_positions_[1] = joint_state->position[1] - last_joint_positions[1];
+
+  // last_joint_positions[0] = joint_state->position[0];
+  // last_joint_positions[1] = joint_state->position[1];
 }
 
 void Odometry::update_imu(const std::shared_ptr<sensor_msgs::msg::Imu const> & imu)
@@ -218,11 +226,11 @@ void Odometry::update_imu(const std::shared_ptr<sensor_msgs::msg::Imu const> & i
 
 bool Odometry::calculate_odometry(const rclcpp::Duration & duration)
 {
-  // rotation value of wheel [rad]
-  double wheel_l = diff_joint_positions_[0];
-  double wheel_r = diff_joint_positions_[1];
 
-  double delta_s = 0.0;
+
+  // double delta_s = 0.0;
+  double delta_y = 0.0;
+  double delta_x = 0.0;
   double delta_theta = 0.0;
 
   double theta = 0.0;
@@ -230,7 +238,8 @@ bool Odometry::calculate_odometry(const rclcpp::Duration & duration)
 
   // v = translational velocity [m/s]
   // w = rotational velocity [rad/s]
-  double v = 0.0;
+  double vx = 0.0;
+  double vy = 0.0;
   double w = 0.0;
 
   double step_time = duration.seconds();
@@ -239,37 +248,104 @@ bool Odometry::calculate_odometry(const rclcpp::Duration & duration)
     return false;
   }
 
-  if (std::isnan(wheel_l)) {
-    wheel_l = 0.0;
-  }
+  // rotation value of wheel [rad]
+  // double wheel_l = diff_joint_positions_[0];
+  // double wheel_r = diff_joint_positions_[1];
 
-  if (std::isnan(wheel_r)) {
-    wheel_r = 0.0;
-  }
+  // if (std::isnan(wheel_l)) {
+  //   wheel_l = 0.0;
+  // }
 
-  delta_s = wheels_radius_ * (wheel_r + wheel_l) / 2.0;
+  // if (std::isnan(wheel_r)) {
+  //   wheel_r = 0.0;
+  // }
+
+  for (int i=0;i<MotorLocation::MOTOR_NUM_MAX;i++)
+  {
+    if (std::isnan(diff_joint_positions_[i])) 
+    {
+      diff_joint_positions_[i] = 0.0;
+    }
+
+    if (std::isnan(last_joint_positions_[i])) 
+    {
+      last_joint_positions_[i] = 0.0;
+    }
+  }
+  double wheel_lf = wheels_radius_ *diff_joint_positions_[WHEEL_L_F];
+  double wheel_lr = wheels_radius_ *diff_joint_positions_[WHEEL_L_R];
+  double wheel_rr = wheels_radius_ *diff_joint_positions_[WHEEL_R_R];
+  double wheel_rf = wheels_radius_ *diff_joint_positions_[WHEEL_R_F];
+
+  double joint_lf = last_joint_positions_[JOINT_L_F];
+  double joint_lr = last_joint_positions_[JOINT_L_R];
+  double joint_rr = last_joint_positions_[JOINT_R_R];
+  double joint_rf = last_joint_positions_[JOINT_R_F];
+
+
 
   if (use_imu_) {
     theta = imu_angle_;
     delta_theta = theta - last_theta;
+    RCLCPP_DEBUG(nh_->get_logger(), "theta : %f", theta);
   } else {
-    theta = wheels_radius_ * (wheel_r - wheel_l) / wheels_separation_;
-    delta_theta = theta;
+    // theta = wheels_radius_ * (wheel_r - wheel_l) / wheels_separation_;
+    // delta_theta = theta;
+    RCLCPP_DEBUG(
+      nh_->get_logger(),
+      "IMU Bool Not Enabled");
   }
 
+  // delta_s = wheels_radius_ * (wheel_r + wheel_l) / 2.0;
+
+  // // compute odometric pose
+  // robot_pose_[0] += delta_s * cos(robot_pose_[2] + (delta_theta / 2.0));
+  // robot_pose_[1] += delta_s * sin(robot_pose_[2] + (delta_theta / 2.0));
+  // robot_pose_[2] += delta_theta;
+
+  // RCLCPP_DEBUG(nh_->get_logger(), "x : %f, y : %f", robot_pose_[0], robot_pose_[1]);
+
+  // // compute odometric instantaneouse velocity
+  // v = delta_s / step_time;
+  // w = delta_theta / step_time;
+
+  // robot_vel_[0] = v;
+  // robot_vel_[1] = 0.0;
+  // robot_vel_[2] = w;
+
+  //angles of wheel with respect to base_link frame
+  //x axis of robot points forward
+  //x axis of wheels by default points such that the robot will spin left
+  double wheel_lf_angle = M_PI/4 + M_PI/2*1 + joint_lf;
+  double wheel_lr_angle = M_PI/4 + M_PI/2*2 + joint_lr;
+  double wheel_rr_angle = M_PI/4 + M_PI/2*3 + joint_rr;
+  double wheel_rf_angle = M_PI/4 + M_PI/2*4 + joint_rf;
+
+  delta_y += wheel_lf*sin(wheel_lf_angle);
+  delta_y += wheel_lr*sin(wheel_lr_angle);
+  delta_y += wheel_rr*sin(wheel_rr_angle);
+  delta_y += wheel_rf*sin(wheel_rf_angle);
+
+  delta_x += wheel_lf*cos(wheel_lf_angle);
+  delta_x += wheel_lr*cos(wheel_lr_angle);
+  delta_x += wheel_rr*cos(wheel_rr_angle);
+  delta_x += wheel_rf*cos(wheel_rf_angle);
+
+
   // compute odometric pose
-  robot_pose_[0] += delta_s * cos(robot_pose_[2] + (delta_theta / 2.0));
-  robot_pose_[1] += delta_s * sin(robot_pose_[2] + (delta_theta / 2.0));
+  robot_pose_[0] += -delta_x * cos(robot_pose_[2] + (delta_theta / 2.0)) + delta_y * sin(robot_pose_[2] + (delta_theta / 2.0)) ;//idk why delta_theta/2
+  robot_pose_[1] += -delta_x * sin(robot_pose_[2] + (delta_theta / 2.0)) - delta_y * cos(robot_pose_[2] + (delta_theta / 2.0));
   robot_pose_[2] += delta_theta;
 
   RCLCPP_DEBUG(nh_->get_logger(), "x : %f, y : %f", robot_pose_[0], robot_pose_[1]);
 
   // compute odometric instantaneouse velocity
-  v = delta_s / step_time;
+  vx = delta_x / step_time;
+  vy = delta_y / step_time;
   w = delta_theta / step_time;
 
-  robot_vel_[0] = v;
-  robot_vel_[1] = 0.0;
+  robot_vel_[0] = vx;
+  robot_vel_[1] = vy;
   robot_vel_[2] = w;
 
   last_theta = theta;
