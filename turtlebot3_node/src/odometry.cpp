@@ -321,15 +321,15 @@ bool Odometry::calculate_odometry(const rclcpp::Duration & duration)
   double wheel_rr_angle = M_PI/4 + M_PI/2*3 + joint_rr;
   double wheel_rf_angle = M_PI/4 + M_PI/2*4 + joint_rf;
 
-  delta_y += wheel_lf*sin(wheel_lf_angle);
-  delta_y += wheel_lr*sin(wheel_lr_angle);
-  delta_y += wheel_rr*sin(wheel_rr_angle);
-  delta_y += wheel_rf*sin(wheel_rf_angle);
+  delta_y += wheel_lf*sin(wheel_lf_angle)/4;
+  delta_y += wheel_lr*sin(wheel_lr_angle)/4;
+  delta_y += wheel_rr*sin(wheel_rr_angle)/4;
+  delta_y += wheel_rf*sin(wheel_rf_angle)/4;
 
-  delta_x += wheel_lf*cos(wheel_lf_angle);
-  delta_x += wheel_lr*cos(wheel_lr_angle);
-  delta_x += wheel_rr*cos(wheel_rr_angle);
-  delta_x += wheel_rf*cos(wheel_rf_angle);
+  delta_x += wheel_lf*cos(wheel_lf_angle)/4;
+  delta_x += wheel_lr*cos(wheel_lr_angle)/4;
+  delta_x += wheel_rr*cos(wheel_rr_angle)/4;
+  delta_x += wheel_rf*cos(wheel_rf_angle)/4;
 
 
   // compute odometric pose
