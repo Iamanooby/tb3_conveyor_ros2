@@ -33,5 +33,5 @@ diff_drive_controller:
       use_imu: true
       frame_id: "odom"
       # child_frame_id: "base_footprint"
-      child_frame_id: "base_link"
+      child_frame_id: "robo_base"
 

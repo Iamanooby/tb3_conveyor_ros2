@@ -4,14 +4,22 @@
   <!-- <xacro:include filename="$(find turtlebot3_description)/urdf/common_properties.urdf"/> -->
   <xacro:include filename="tb3_conveyor_macro.xacro"/>
 
+  <xacro:property name="basefp_to_baselink" value="0.87"/>
 
+  <link name="robo_base"/>
+
+  <joint name="robo_joint" type="fixed">
+    <parent link="robo_base"/>
+    <child link="base_footprint"/>
+    <origin xyz="-${basefp_to_baselink} 0.0 0.0" rpy="0 0 0"/>
+  </joint>
 
   <link name="base_footprint"/>
 
   <joint name="base_joint" type="fixed">
-    <parent link="base_link"/>
-    <child link="base_footprint"/>
-    <origin xyz="-0.87 0.0 0.010" rpy="0 0 0"/>
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="${basefp_to_baselink} 0.0 0.010" rpy="0 0 0"/>
   </joint>
 
   <link name="base_link">
